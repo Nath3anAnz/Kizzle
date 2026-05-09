@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "553955093304",
+    "project_id": "kizzle-1ac8a",
+    "storage_bucket": "kizzle-1ac8a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:553955093304:android:ffb66750916aa65036afcd",
+        "android_client_info": {
+          "package_name": "com.example.puzzle_balita"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_4Jh-_9jE8WQQfQWDfDq0VHHG2Q-sFR4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
