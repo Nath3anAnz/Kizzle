@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'dart:ui' show ImageFilter; // Amankan buat efek blur kaca
 import 'audio_manager.dart';
 import 'settings_page.dart';
 import 'difficulty_page.dart';
+import 'tutorial_page.dart';
 
 class CategoriesPage extends StatefulWidget {
   const CategoriesPage({super.key});
@@ -42,99 +44,127 @@ class _CategoriesPageState extends State<CategoriesPage> {
           const SizedBox(width: 10),
         ],
       ),
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/background_level.png'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: SafeArea(
-          // --- REVISI: Dibungkus Center biar kotaknya diam di tengah layar ---
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 25.0,
-              ), // Spacing pinggir dilebarin dikit
-              child: GridView.count(
-                shrinkWrap:
-                    true, // <-- INI KUNCINYA: Biar gridnya kumpul di tengah, ga manjang ke atas-bawah
-                physics:
-                    const NeverScrollableScrollPhysics(), // Dimatiin scrollnya karena cuma 4 kotak
-                crossAxisCount: 2,
-                crossAxisSpacing:
-                    20, // Jarak antar kotak dilebarin dikit biar lega
-                mainAxisSpacing: 20,
-                childAspectRatio:
-                    0.95, // <-- Dibikin nyaris kotak biar ga kepanjangan melar
-                children: [
-                  _buildCategoryCard(
-                    context,
-                    title: 'Tile Puzzle',
-                    icon: Icons.grid_view_rounded,
-                    color: const Color(0xFF4CAF50),
-                    onTap: () {
-                      Navigator.push(
+      body: Stack(
+        children: [
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/background_level.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: SafeArea(
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 25.0,
+                  ), 
+                  child: GridView.count(
+                    shrinkWrap: true, 
+                    physics: const NeverScrollableScrollPhysics(), 
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 20, 
+                    mainAxisSpacing: 20,
+                    childAspectRatio: 0.95, 
+                    children: [
+                      _buildCategoryCard(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              const DifficultyPage(kategori: 'Tile Puzzle'),
-                        ),
-                      );
-                    },
-                  ),
-                  _buildCategoryCard(
-                    context,
-                    title: 'Match Shape',
-                    icon: Icons.category,
-                    color: const Color(0xFF2196F3),
-                    onTap: () {
-                      Navigator.push(
+                        title: 'Tile Puzzle',
+                        icon: Icons.grid_view_rounded,
+                        color: const Color(0xFF4CAF50),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const DifficultyPage(kategori: 'Tile Puzzle'),
+                            ),
+                          );
+                        },
+                      ),
+                      _buildCategoryCard(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              const DifficultyPage(kategori: 'Match Shape'),
-                        ),
-                      );
-                    },
-                  ),
-                  _buildCategoryCard(
-                    context,
-                    title: 'Size Sorting',
-                    icon: Icons.bar_chart,
-                    color: const Color(0xFFFF9800),
-                    onTap: () {
-                      Navigator.push(
+                        title: 'Match Shape',
+                        icon: Icons.category,
+                        color: const Color(0xFF2196F3),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const DifficultyPage(kategori: 'Match Shape'),
+                            ),
+                          );
+                        },
+                      ),
+                      _buildCategoryCard(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              const DifficultyPage(kategori: 'Size Sorting'),
-                        ),
-                      );
-                    },
-                  ),
-                  _buildCategoryCard(
-                    context,
-                    title: 'Object Matching',
-                    icon: Icons.extension,
-                    color: const Color(0xFF9C27B0),
-                    onTap: () {
-                      Navigator.push(
+                        title: 'Size Sorting',
+                        icon: Icons.bar_chart,
+                        color: const Color(0xFFFF9800),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const DifficultyPage(kategori: 'Size Sorting'),
+                            ),
+                          );
+                        },
+                      ),
+                      _buildCategoryCard(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              const DifficultyPage(kategori: 'Object Matching'),
-                        ),
-                      );
-                    },
+                        title: 'Object Matching',
+                        icon: Icons.extension,
+                        color: const Color(0xFF9C27B0),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const DifficultyPage(
+                                kategori: 'Object Matching',
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
-        ),
+          Positioned(
+            bottom: 20,
+            right: 20,
+            child: FloatingActionButton(
+              backgroundColor: Colors.white,
+              elevation: 5,
+              onPressed: () {
+                // --- STRUKTUR FIX: showGeneralDialog yang bener tanpa kurung nyasar ---
+                showGeneralDialog(
+                  context: context,
+                  barrierColor: Colors.black.withOpacity(0.5), 
+                  barrierDismissible: true,
+                  barrierLabel: 'Tutorial',
+                  transitionDuration: const Duration(milliseconds: 300),
+                  pageBuilder: (context, animation, secondaryAnimation) {
+                    return BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                      child: const TutorialPage(),
+                    );
+                  },
+                  transitionBuilder: (context, animation, secondaryAnimation, child) {
+                    return FadeTransition(opacity: animation, child: child);
+                  },
+                );
+              },
+              child: const Icon(Icons.question_mark, color: Colors.blue),
+            ),
+          ),
+        ],
       ),
     );
   }
