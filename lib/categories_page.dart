@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'dart:ui' show ImageFilter; // Amankan buat efek blur kaca
+import 'dart:ui' show ImageFilter;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'audio_manager.dart';
 import 'settings_page.dart';
 import 'difficulty_page.dart';
@@ -13,11 +14,131 @@ class CategoriesPage extends StatefulWidget {
   State<CategoriesPage> createState() => _CategoriesPageState();
 }
 
+/// Internal model for a game category loaded from Firestore.
+class _GameCategory {
+  final String name;
+  final String iconName;
+  final String colorHex;
+  final int order;
+
+  _GameCategory({
+    required this.name,
+    required this.iconName,
+    required this.colorHex,
+    required this.order,
+  });
+}
+
 class _CategoriesPageState extends State<CategoriesPage> {
+  List<_GameCategory> _categories = [];
+  bool _isLoading = true;
+
+  /// Fallback categories when Firestore is unavailable or returns no active data.
+  static final List<_GameCategory> _fallbackCategories = [
+    _GameCategory(
+      name: 'Tile Puzzle',
+      iconName: 'grid_view_rounded',
+      colorHex: '#4CAF50',
+      order: 1,
+    ),
+    _GameCategory(
+      name: 'Match Shape',
+      iconName: 'category',
+      colorHex: '#2196F3',
+      order: 2,
+    ),
+    _GameCategory(
+      name: 'Size Sorting',
+      iconName: 'bar_chart',
+      colorHex: '#FF9800',
+      order: 3,
+    ),
+    _GameCategory(
+      name: 'Object Matching',
+      iconName: 'extension',
+      colorHex: '#9C27B0',
+      order: 4,
+    ),
+  ];
+
   @override
   void initState() {
     super.initState();
     AudioManager().playMenuMusic();
+    _loadCategories();
+  }
+
+  Future<void> _loadCategories() async {
+    try {
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('game_categories')
+          .orderBy('order')
+          .get();
+
+      if (!mounted) return;
+
+      final categories = querySnapshot.docs
+          .where((doc) => doc.data()['is_active'] == true)
+          .map((doc) {
+        final data = doc.data();
+        return _GameCategory(
+          name: data['name'] as String? ?? '',
+          iconName: data['icon_name'] as String? ?? '',
+          colorHex: data['color_hex'] as String? ?? '',
+          order: data['order'] as int? ?? 0,
+        );
+      }).where((cat) => cat.name.isNotEmpty).toList();
+
+      if (categories.isEmpty) {
+        _applyFallback();
+        return;
+      }
+
+      if (!mounted) return;
+      setState(() {
+        _categories = categories;
+        _isLoading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      _applyFallback();
+    }
+  }
+
+  void _applyFallback() {
+    setState(() {
+      _categories = _fallbackCategories;
+      _isLoading = false;
+    });
+  }
+
+  /// Map a Firestore icon_name string to an IconData.
+  IconData _mapIconName(String iconName) {
+    switch (iconName) {
+      case 'grid_view_rounded':
+        return Icons.grid_view_rounded;
+      case 'category':
+        return Icons.category;
+      case 'bar_chart':
+        return Icons.bar_chart;
+      case 'extension':
+        return Icons.extension;
+      default:
+        return Icons.star;
+    }
+  }
+
+  /// Parse a hex color string (e.g. "#4CAF50") to a Color.
+  /// Returns [Colors.orange] if parsing fails.
+  Color _parseHexColor(String hex) {
+    try {
+      final colorString = hex.replaceFirst('#', '');
+      if (colorString.length != 6) return Colors.orange;
+      final intValue = int.parse('FF$colorString', radix: 16);
+      return Color(intValue);
+    } catch (e) {
+      return Colors.orange;
+    }
   }
 
   @override
@@ -57,82 +178,39 @@ class _CategoriesPageState extends State<CategoriesPage> {
             ),
             child: SafeArea(
               child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 25.0,
-                  ), 
-                  child: GridView.count(
-                    shrinkWrap: true, 
-                    physics: const NeverScrollableScrollPhysics(), 
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 20, 
-                    mainAxisSpacing: 20,
-                    childAspectRatio: 0.95, 
-                    children: [
-                      _buildCategoryCard(
-                        context,
-                        title: 'Tile Puzzle',
-                        icon: Icons.grid_view_rounded,
-                        color: const Color(0xFF4CAF50),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const DifficultyPage(kategori: 'Tile Puzzle'),
-                            ),
-                          );
-                        },
+                child: _isLoading
+                    ? const CircularProgressIndicator(color: Colors.white)
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 25.0,
+                        ),
+                        child: GridView.count(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 20,
+                          mainAxisSpacing: 20,
+                          childAspectRatio: 0.95,
+                          children: _categories.map((cat) {
+                            return _buildCategoryCard(
+                              context,
+                              title: cat.name,
+                              icon: _mapIconName(cat.iconName),
+                              color: _parseHexColor(cat.colorHex),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DifficultyPage(
+                                      kategori: cat.name,
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          }).toList(),
+                        ),
                       ),
-                      _buildCategoryCard(
-                        context,
-                        title: 'Match Shape',
-                        icon: Icons.category,
-                        color: const Color(0xFF2196F3),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const DifficultyPage(kategori: 'Match Shape'),
-                            ),
-                          );
-                        },
-                      ),
-                      _buildCategoryCard(
-                        context,
-                        title: 'Size Sorting',
-                        icon: Icons.bar_chart,
-                        color: const Color(0xFFFF9800),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const DifficultyPage(kategori: 'Size Sorting'),
-                            ),
-                          );
-                        },
-                      ),
-                      _buildCategoryCard(
-                        context,
-                        title: 'Object Matching',
-                        icon: Icons.extension,
-                        color: const Color(0xFF9C27B0),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const DifficultyPage(
-                                kategori: 'Object Matching',
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
               ),
             ),
           ),
@@ -143,10 +221,9 @@ class _CategoriesPageState extends State<CategoriesPage> {
               backgroundColor: Colors.white,
               elevation: 5,
               onPressed: () {
-                // --- STRUKTUR FIX: showGeneralDialog yang bener tanpa kurung nyasar ---
                 showGeneralDialog(
                   context: context,
-                  barrierColor: Colors.black.withOpacity(0.5), 
+                  barrierColor: Colors.black.withValues(alpha: 0.5),
                   barrierDismissible: true,
                   barrierLabel: 'Tutorial',
                   transitionDuration: const Duration(milliseconds: 300),
@@ -156,7 +233,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
                       child: const TutorialPage(),
                     );
                   },
-                  transitionBuilder: (context, animation, secondaryAnimation, child) {
+                  transitionBuilder:
+                      (context, animation, secondaryAnimation, child) {
                     return FadeTransition(opacity: animation, child: child);
                   },
                 );
