@@ -12,7 +12,20 @@
           "package_name": "com.example.puzzle_balita"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "553955093304-8mc1lspiqd9dgi9lih4pf23gjbksgcdj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.puzzle_balita",
+            "certificate_hash": "b1caa7c20bd9e746bc0d8ef04ac4a791c0774629"
+          }
+        },
+        {
+          "client_id": "553955093304-4sroith84h9dpm6phc7evhfs5gb98u0e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyC_4Jh-_9jE8WQQfQWDfDq0VHHG2Q-sFR4"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "553955093304-4sroith84h9dpm6phc7evhfs5gb98u0e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "553955093304-o0b0378meclqgackki8lg47l6m6arigc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.puzzleBalita"
+              }
+            }
+          ]
         }
       }
     }
