@@ -172,7 +172,7 @@ class _DifficultyPageState extends State<DifficultyPage> {
       appBar: AppBar(
         title: const Text(
           "Select Difficulty",
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          style: TextStyle(fontFamily: 'Jua', fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Colors.orange,
         elevation: 0,
@@ -241,6 +241,7 @@ class _DifficultyPageState extends State<DifficultyPage> {
                 Text(
                   widget.kategori,
                   style: const TextStyle(
+                    fontFamily: 'Jua',
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -328,6 +329,7 @@ class _DifficultyPageState extends State<DifficultyPage> {
               Text(
                 title,
                 style: const TextStyle(
+                  fontFamily: 'Jua',
                   fontSize: 26,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,

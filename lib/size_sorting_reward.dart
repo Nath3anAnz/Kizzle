@@ -54,6 +54,7 @@ class _SizeSortingRewardState extends State<SizeSortingReward> {
               const Text(
                 "PINTAR!", 
                 style: TextStyle(
+                  fontFamily: 'Jua',
                   fontSize: 48, 
                   fontWeight: FontWeight.bold, 
                   color: Colors.orange, 
@@ -80,6 +81,7 @@ class _SizeSortingRewardState extends State<SizeSortingReward> {
               const Text(
                 "Urutan Sempurna!", 
                 style: TextStyle(
+                  fontFamily: 'Jua',
                   fontSize: 32, 
                   fontWeight: FontWeight.bold, 
                   color: Colors.white, 
@@ -108,7 +110,7 @@ class _SizeSortingRewardState extends State<SizeSortingReward> {
                     ),
                   );
                 },
-                child: const Text("LANJUT", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
+                child: const Text("LANJUT", style: TextStyle(fontFamily: 'Jua', fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
               )
             ],
           ),

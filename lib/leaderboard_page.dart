@@ -17,7 +17,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
       length: 3, 
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Leaderboard: ${widget.kategori}", style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+          title: Text("Leaderboard: ${widget.kategori}", style: const TextStyle(fontFamily: 'Jua', fontWeight: FontWeight.bold, color: Colors.white)),
           backgroundColor: Colors.orange,
           iconTheme: const IconThemeData(color: Colors.white),
           bottom: const TabBar(
@@ -70,7 +70,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
           debugPrint("Leaderboard Error: ${snapshot.error}");
           return const Center(
             child: Text("Data belum siap.\nCek console buat bikin Index!", 
-            textAlign: TextAlign.center, style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+            textAlign: TextAlign.center, style: TextStyle(fontFamily: 'PalanquinDark', color: Colors.red, fontWeight: FontWeight.bold)),
           );
         }
 
@@ -78,7 +78,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
           return const Center(
             child: Text("Belum ada rekor nih!", 
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.blue)),
+            style: TextStyle(fontFamily: 'PalanquinDark', fontSize: 20, fontWeight: FontWeight.bold, color: Colors.blue)),
           );
         }
 
@@ -136,7 +136,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
             width: 40,
             child: rank <= 3 
                 ? Icon(medalIcon, color: medalColor, size: 35)
-                : Text("#$rank", textAlign: TextAlign.center, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black54)),
+                : Text("#$rank", textAlign: TextAlign.center, style: const TextStyle(fontFamily: 'PalanquinDark', fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black54)),
           ),
           const SizedBox(width: 10),
           Expanded(
@@ -146,6 +146,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                 Text(
                   name, 
                   style: TextStyle(
+                    fontFamily: 'PalanquinDark',
                     fontSize: 20, 
                     fontWeight: FontWeight.bold, 
                     color: rank == 1 ? Colors.blueAccent : Colors.black 
@@ -164,7 +165,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(color: Colors.blue.shade50, borderRadius: BorderRadius.circular(10)),
-            child: Text("${waktu}s", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.blueAccent)),
+            child: Text("${waktu}s", style: const TextStyle(fontFamily: 'PalanquinDark', fontSize: 18, fontWeight: FontWeight.bold, color: Colors.blueAccent)),
           ),
         ],
       ),

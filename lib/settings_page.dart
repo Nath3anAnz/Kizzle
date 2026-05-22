@@ -45,7 +45,7 @@ void initState() {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('Pengaturan', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+        title: const Text('Pengaturan', style: TextStyle(fontFamily: 'Jua', fontWeight: FontWeight.bold, color: Colors.white)),
         backgroundColor: Colors.transparent,
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.white),
@@ -85,7 +85,7 @@ void initState() {
                       const SizedBox(height: 15),
                       const Text(
                         "Volume Musik", 
-                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black87)
+                        style: TextStyle(fontFamily: 'Jua', fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black87)
                       ),
                       const SizedBox(height: 10),
                       
@@ -122,7 +122,7 @@ void initState() {
                           icon: const Icon(Icons.logout, color: Colors.white),
                           label: const Text(
                             "LOG OUT", 
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)
+                            style: TextStyle(fontFamily: 'Jua', fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)
                           ),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.redAccent,

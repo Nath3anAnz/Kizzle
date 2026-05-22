@@ -96,6 +96,7 @@ class LoginPage extends StatelessWidget {
                           child: const Text(
                             "Play",
                             style: TextStyle(
+                              fontFamily: 'Jua',
                               fontSize: 22,
                               color: Colors.white,
                               fontWeight: FontWeight.bold,

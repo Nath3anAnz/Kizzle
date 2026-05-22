@@ -80,6 +80,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                 Text(
                   "($_percentage%) Building the games...",
                   style: const TextStyle(
+                    fontFamily: 'PalanquinDark',
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -120,6 +121,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                     "when life gives you apple, you take it.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
+                      fontFamily: 'PalanquinDark',
                       color: Colors.black87,
                       fontSize: 14,
                       fontWeight: FontWeight.w500,

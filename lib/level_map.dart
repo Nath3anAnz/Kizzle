@@ -8,7 +8,7 @@ class LevelMapPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Pilih Levelmu"), 
+        title: const Text("Pilih Levelmu", style: TextStyle(fontFamily: 'Jua')), 
         backgroundColor: Colors.orange,
       ),
       // INI DIA KUNCINYA: Membungkus dengan background gambar
@@ -59,7 +59,7 @@ class LevelMapPage extends StatelessWidget {
           child: CircleAvatar(
             radius: 35,
             backgroundColor: isUnlocked ? Colors.orange : Colors.grey,
-            child: Text(label, style: const TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold)),
+            child: Text(label, style: const TextStyle(fontFamily: 'Jua', fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold)),
           ),
         ),
       ),

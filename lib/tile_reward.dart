@@ -92,6 +92,7 @@ class _TileRewardState extends State<TileReward> {
               const Text(
                 "PINTAR!", 
                 style: TextStyle(
+                  fontFamily: 'Jua',
                   fontSize: 48, 
                   fontWeight: FontWeight.bold, 
                   color: Colors.orange, 
@@ -123,6 +124,7 @@ class _TileRewardState extends State<TileReward> {
               Text(
                 _itemName, 
                 style: const TextStyle(
+                  fontFamily: 'Jua',
                   fontSize: 36, 
                   fontWeight: FontWeight.bold, 
                   color: Colors.white, 
@@ -154,7 +156,7 @@ class _TileRewardState extends State<TileReward> {
                     ),
                   );
                 },
-                child: const Text("LANJUT", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
+                child: const Text("LANJUT", style: TextStyle(fontFamily: 'Jua', fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
               )
             ],
           ),

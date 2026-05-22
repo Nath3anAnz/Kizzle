@@ -13,10 +13,21 @@ void main() async {
   );
 
   runApp(
-    const MaterialApp(
+    MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        fontFamily: 'PalanquinDark',
+        appBarTheme: const AppBarTheme(
+          titleTextStyle: TextStyle(
+            fontFamily: 'Jua',
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+      ),
       // Garis biru udah hilang karena const di bawah ini udah gua cabut
-      home: LoginEmailPage(), 
+      home: const LoginEmailPage(),
     ),
   );
 }

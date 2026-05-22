@@ -145,6 +145,7 @@ class _TileResultState extends State<TileResult> {
                       const Text(
                         'LEVEL SELESAI!',
                         style: TextStyle(
+                          fontFamily: 'Jua',
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
                           color: Colors.orange,
@@ -168,6 +169,7 @@ class _TileResultState extends State<TileResult> {
                       Text(
                         'Waktu: ${widget.waktu} Detik',
                         style: const TextStyle(
+                          fontFamily: 'PalanquinDark',
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.blueAccent,
@@ -327,6 +329,7 @@ class ActionButton extends StatelessWidget {
           label,
           textAlign: TextAlign.center,
           style: const TextStyle(
+            fontFamily: 'PalanquinDark',
             fontSize: 12,
             fontWeight: FontWeight.bold,
             color: Colors.black87,

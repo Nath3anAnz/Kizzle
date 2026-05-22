@@ -79,6 +79,22 @@ flutter:
     - assets/images/matchshapelvl1/
     - assets/images/matchshapelvl2/
     - assets/images/matchshapelvl3/
+
+  fonts:
+    - family: Jua
+      fonts:
+        - asset: assets/fonts/Jua-Regular.ttf
+
+    - family: PalanquinDark
+      fonts:
+        - asset: assets/fonts/PalanquinDark-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/PalanquinDark-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/PalanquinDark-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/PalanquinDark-Bold.ttf
+          weight: 700
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

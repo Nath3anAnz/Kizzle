@@ -165,6 +165,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           child: const Text(
                             "PLAY",
                             style: TextStyle(
+                              fontFamily: 'Jua',
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
@@ -196,6 +197,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           child: const Text(
                             "EXIT GAME",
                             style: TextStyle(
+                              fontFamily: 'Jua',
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,

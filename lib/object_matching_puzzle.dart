@@ -199,7 +199,7 @@ class _ObjectMatchingPuzzleState extends State<ObjectMatchingPuzzle> with Single
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Object Matching - Level ${widget.level}", style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+        title: Text("Object Matching - Level ${widget.level}", style: const TextStyle(fontFamily: 'Jua', fontWeight: FontWeight.bold, color: Colors.white)),
         backgroundColor: Colors.purple,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
@@ -224,11 +224,11 @@ class _ObjectMatchingPuzzleState extends State<ObjectMatchingPuzzle> with Single
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                     decoration: BoxDecoration(color: Colors.white.withOpacity(0.9), borderRadius: BorderRadius.circular(20)),
-                    child: Text("Waktu: ${_elapsedSeconds}s", style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.blueAccent)),
+                    child: Text("Waktu: ${_elapsedSeconds}s", style: const TextStyle(fontFamily: 'PalanquinDark', fontSize: 22, fontWeight: FontWeight.bold, color: Colors.blueAccent)),
                   ),
                   const SizedBox(height: 20),
                   
-                  const Text("Tarik Pasangannya ke Sini!", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white, shadows: [Shadow(color: Colors.black45, blurRadius: 5)])),
+                  const Text("Tarik Pasangannya ke Sini!", style: TextStyle(fontFamily: 'Jua', fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white, shadows: [Shadow(color: Colors.black45, blurRadius: 5)])),
                   const SizedBox(height: 10),
                   
                   // TARGET ITEM
@@ -274,6 +274,7 @@ class _ObjectMatchingPuzzleState extends State<ObjectMatchingPuzzle> with Single
                             Text(
                               _isMatched ? "COCOK!" : targetName, 
                               style: TextStyle(
+                                fontFamily: 'Jua',
                                 fontSize: 22, 
                                 fontWeight: FontWeight.bold, 
                                 color: _isMatched ? Colors.green : Colors.black87
@@ -296,7 +297,7 @@ class _ObjectMatchingPuzzleState extends State<ObjectMatchingPuzzle> with Single
                     ),
                     child: Column(
                       children: [
-                        const Text("Mana pasangannya?", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black87)),
+                        const Text("Mana pasangannya?", style: TextStyle(fontFamily: 'Jua', fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black87)),
                         const SizedBox(height: 20),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -321,7 +322,7 @@ class _ObjectMatchingPuzzleState extends State<ObjectMatchingPuzzle> with Single
                                 children: [
                                   optionDisplay,
                                   const SizedBox(height: 8),
-                                  Text(opt["name"], textAlign: TextAlign.center, maxLines: 2, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+                                  Text(opt["name"], textAlign: TextAlign.center, maxLines: 2, style: const TextStyle(fontFamily: 'PalanquinDark', fontWeight: FontWeight.bold, fontSize: 13)),
                                 ],
                               ),
                             );

@@ -21,7 +21,7 @@ class _PuzzleGameState extends State<PuzzleGame> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Bermain Level ${widget.level}")),
+      appBar: AppBar(title: Text("Bermain Level ${widget.level}", style: const TextStyle(fontFamily: 'Jua'))),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -36,7 +36,7 @@ class _PuzzleGameState extends State<PuzzleGame> {
               builder: (context, data, rejected) => Container(
                 width: 80, height: 80,
                 decoration: BoxDecoration(color: score[id]! ? Colors.green : Colors.grey[200], borderRadius: BorderRadius.circular(10)),
-                child: Center(child: Text(score[id]! ? "Sip!" : "?")),
+                child: Center(child: Text(score[id]! ? "Sip!" : "?", style: const TextStyle(fontFamily: 'PalanquinDark'))),
               ),
             )).toList(),
           ),
@@ -50,7 +50,7 @@ class _PuzzleGameState extends State<PuzzleGame> {
             )).toList()..shuffle(),
           ),
           if (score.values.every((v) => v == true))
-            ElevatedButton(onPressed: () => Navigator.pop(context), child: const Text("Balik ke Map"))
+            ElevatedButton(onPressed: () => Navigator.pop(context), child: const Text("Balik ke Map", style: TextStyle(fontFamily: 'Jua')))
         ],
       ),
     );

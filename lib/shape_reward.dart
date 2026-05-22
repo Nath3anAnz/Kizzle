@@ -78,6 +78,7 @@ class _ShapeRewardState extends State<ShapeReward> {
               const Text(
                 "PINTAR!", 
                 style: TextStyle(
+                  fontFamily: 'Jua',
                   fontSize: 48, 
                   fontWeight: FontWeight.bold, 
                   color: Colors.orange, 
@@ -101,6 +102,7 @@ class _ShapeRewardState extends State<ShapeReward> {
                 _kategoriName, 
                 textAlign: TextAlign.center, 
                 style: const TextStyle(
+                  fontFamily: 'Jua',
                   fontSize: 40, 
                   fontWeight: FontWeight.bold, 
                   color: Colors.white, 
@@ -131,7 +133,7 @@ class _ShapeRewardState extends State<ShapeReward> {
                 },
                 child: const Text(
                   "LANJUT", 
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)
+                  style: TextStyle(fontFamily: 'Jua', fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)
                 ),
               )
             ],

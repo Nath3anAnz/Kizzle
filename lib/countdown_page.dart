@@ -128,6 +128,7 @@ class _CountdownPageState extends State<CountdownPage> {
               _displayText,
               key: ValueKey<String>(_displayText),
               style: TextStyle(
+                fontFamily: 'Jua',
                 fontSize: _displayText == "GO!" ? 100 : 150,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,

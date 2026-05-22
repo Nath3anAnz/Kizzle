@@ -174,7 +174,7 @@ class _ShapePuzzleState extends State<ShapePuzzle> with SingleTickerProviderStat
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Match Shape - Level ${widget.level}", style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+        title: Text("Match Shape - Level ${widget.level}", style: const TextStyle(fontFamily: 'Jua', fontWeight: FontWeight.bold, color: Colors.white)),
         backgroundColor: Colors.orange,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
@@ -197,7 +197,7 @@ class _ShapePuzzleState extends State<ShapePuzzle> with SingleTickerProviderStat
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                     decoration: BoxDecoration(color: Colors.white.withOpacity(0.8), borderRadius: BorderRadius.circular(20)),
-                    child: Text("Waktu: ${_elapsedSeconds}s", style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.blueAccent)),
+                    child: Text("Waktu: ${_elapsedSeconds}s", style: const TextStyle(fontFamily: 'PalanquinDark', fontSize: 22, fontWeight: FontWeight.bold, color: Colors.blueAccent)),
                   ),
                   
                   Expanded(

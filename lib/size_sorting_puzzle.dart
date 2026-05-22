@@ -115,7 +115,7 @@ class _SizeSortingPuzzleState extends State<SizeSortingPuzzle> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Size Sorting - Level ${widget.level}", style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+        title: Text("Size Sorting - Level ${widget.level}", style: const TextStyle(fontFamily: 'Jua', fontWeight: FontWeight.bold, color: Colors.white)),
         backgroundColor: Colors.orange,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
@@ -134,7 +134,7 @@ class _SizeSortingPuzzleState extends State<SizeSortingPuzzle> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
               decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.8), borderRadius: BorderRadius.circular(20)),
-              child: Text("Waktu: ${_elapsedSeconds}s", style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.blueAccent)),
+              child: Text("Waktu: ${_elapsedSeconds}s", style: const TextStyle(fontFamily: 'PalanquinDark', fontSize: 22, fontWeight: FontWeight.bold, color: Colors.blueAccent)),
             ),
             const SizedBox(height: 10),
             
@@ -143,7 +143,7 @@ class _SizeSortingPuzzleState extends State<SizeSortingPuzzle> {
               decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.5), borderRadius: BorderRadius.circular(10)),
               child: const Text(
                 "Urutkan dari yang Terpendek ➡️ Tertinggi",
-                style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                style: TextStyle(fontFamily: 'Jua', color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
             
@@ -206,6 +206,7 @@ class _SizeSortingPuzzleState extends State<SizeSortingPuzzle> {
                                     child: Text(
                                       _bars[i].toString(), 
                                       style: TextStyle(
+                                        fontFamily: 'PalanquinDark',
                                         color: Colors.white, 
                                         fontWeight: FontWeight.bold, 
                                         fontSize: _bars.length >= 10 ? 12 : 16

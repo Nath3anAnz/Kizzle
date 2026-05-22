@@ -146,7 +146,7 @@ class _TilePuzzleState extends State<TilePuzzle> with SingleTickerProviderStateM
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Main Tile Puzzle - Level ${widget.level}", style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white)), 
+        title: Text("Main Tile Puzzle - Level ${widget.level}", style: const TextStyle(fontFamily: 'Jua', fontWeight: FontWeight.bold, color: Colors.white)), 
         backgroundColor: Colors.green,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
@@ -174,7 +174,7 @@ class _TilePuzzleState extends State<TilePuzzle> with SingleTickerProviderStateM
                     decoration: BoxDecoration(color: Colors.white.withOpacity(0.8), borderRadius: BorderRadius.circular(20)),
                     child: Text(
                       "Waktu: ${_elapsedSeconds}s", 
-                      style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.blueAccent)
+                      style: const TextStyle(fontFamily: 'PalanquinDark', fontSize: 22, fontWeight: FontWeight.bold, color: Colors.blueAccent)
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -207,7 +207,7 @@ class _TilePuzzleState extends State<TilePuzzle> with SingleTickerProviderStateM
                                         fit: BoxFit.fill, 
                                         errorBuilder: (context, error, stackTrace) => Container(
                                           color: Colors.grey.shade300,
-                                          child: const Center(child: Text("Gambar\nBelum Pas", textAlign: TextAlign.center, style: TextStyle(color: Colors.black54))),
+                                          child: const Center(child: Text("Gambar\nBelum Pas", textAlign: TextAlign.center, style: TextStyle(fontFamily: 'PalanquinDark', color: Colors.black54))),
                                         ),
                                       ),
                                     ),
@@ -343,6 +343,6 @@ class _TilePuzzleState extends State<TilePuzzle> with SingleTickerProviderStateM
   }
 
   Widget _buildMissingAssetBox({double? size}) {
-    return Container(width: size, height: size, color: Colors.grey.shade300, child: const Center(child: Text("Aset\nBelum\nAda", textAlign: TextAlign.center, style: TextStyle(fontSize: 10, color: Colors.black54))));
+    return Container(width: size, height: size, color: Colors.grey.shade300, child: const Center(child: Text("Aset\nBelum\nAda", textAlign: TextAlign.center, style: TextStyle(fontFamily: 'PalanquinDark', fontSize: 10, color: Colors.black54))));
   }
 }

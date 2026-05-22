@@ -147,7 +147,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
       appBar: AppBar(
         title: const Text(
           'Pilih Kategori',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          style: TextStyle(fontFamily: 'Jua', fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Colors.orange,
         elevation: 0,
@@ -350,6 +350,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                     title,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
+                      fontFamily: 'Jua',
                       fontSize: 19,
                       fontWeight: FontWeight.w900,
                       color: Colors.white,

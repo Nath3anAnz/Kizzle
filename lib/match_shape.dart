@@ -104,6 +104,7 @@ class _MatchShapeState extends State<MatchShape> {
         title: Text(
           "Match Shape - Level ${widget.level}",
           style: const TextStyle(
+            fontFamily: 'Jua',
             fontWeight: FontWeight.bold,
             color: Colors.white,
           ),
@@ -132,6 +133,7 @@ class _MatchShapeState extends State<MatchShape> {
               child: Text(
                 "Waktu: ${_elapsedSeconds}s",
                 style: const TextStyle(
+                  fontFamily: 'PalanquinDark',
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                   color: Colors.blueAccent,
@@ -187,6 +189,7 @@ class _MatchShapeState extends State<MatchShape> {
                                 "BENAR! 🎉",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
+                                  fontFamily: 'Jua',
                                   color: Colors.white,
                                   fontSize: 30,
                                   fontWeight: FontWeight.w900,
@@ -197,6 +200,7 @@ class _MatchShapeState extends State<MatchShape> {
                                 "Kamu menyelesaikan dalam $_elapsedSeconds detik!",
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
+                                  fontFamily: 'PalanquinDark',
                                   color: Colors.white,
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -221,7 +225,7 @@ class _MatchShapeState extends State<MatchShape> {
                                 },
                                 child: const Text(
                                   "OK",
-                                  style: TextStyle(fontWeight: FontWeight.w900),
+                                  style: TextStyle(fontFamily: 'Jua', fontWeight: FontWeight.w900),
                                 ),
                               ),
                             ],

@@ -69,6 +69,7 @@ class _ObjectMatchingRewardState extends State<ObjectMatchingReward> {
               const Text(
                 "PINTAR!", 
                 style: TextStyle(
+                  fontFamily: 'Jua',
                   fontSize: 52, 
                   fontWeight: FontWeight.bold, 
                   color: Colors.orange, 
@@ -121,6 +122,7 @@ class _ObjectMatchingRewardState extends State<ObjectMatchingReward> {
                   widget.logicalExplanation, 
                   textAlign: TextAlign.center,
                   style: const TextStyle(
+                    fontFamily: 'Jua',
                     fontSize: 28, 
                     fontWeight: FontWeight.bold, 
                     color: Colors.white, 
@@ -150,7 +152,7 @@ class _ObjectMatchingRewardState extends State<ObjectMatchingReward> {
                 },
                 child: const Text(
                   "LANJUT", 
-                  style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.white)
+                  style: TextStyle(fontFamily: 'Jua', fontSize: 26, fontWeight: FontWeight.bold, color: Colors.white)
                 ),
               )
             ],
