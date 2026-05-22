@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,7 +15,8 @@ class LoginEmailPage extends StatefulWidget {
   State<LoginEmailPage> createState() => _LoginEmailPageState();
 }
 
-class _LoginEmailPageState extends State<LoginEmailPage> {
+class _LoginEmailPageState extends State<LoginEmailPage>
+    with SingleTickerProviderStateMixin {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _nameController = TextEditingController();
@@ -23,6 +26,35 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
   bool _isLoading = false;
   bool _isAuthButtonPressed = false;
   bool _isGoogleButtonPressed = false;
+
+  late final AnimationController _logoController;
+  late final Animation<double> _logoFloatAnimation;
+
+  bool _isBlinking = false;
+  Timer? _blinkTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    _logoController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    )..repeat(reverse: true);
+    _logoFloatAnimation = Tween<double>(
+      begin: -4,
+      end: 4,
+    ).animate(CurvedAnimation(
+      parent: _logoController,
+      curve: Curves.easeInOut,
+    ));
+    _blinkTimer = Timer.periodic(const Duration(seconds: 4), (_) {
+      if (!mounted) return;
+      setState(() => _isBlinking = true);
+      Future.delayed(const Duration(milliseconds: 150), () {
+        if (mounted) setState(() => _isBlinking = false);
+      });
+    });
+  }
 
   // --- FUNGSI MASUK / DAFTAR PAKAI EMAIL (TETAP AMAN) ---
   void _submitAuth() async {
@@ -228,6 +260,7 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
       content: Text(
         message,
         style: const TextStyle(
+          fontFamily: 'PalanquinDark',
           color: Colors.white,
           fontWeight: FontWeight.bold,
         ),
@@ -241,6 +274,8 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
 
   @override
   void dispose() {
+    _blinkTimer?.cancel();
+    _logoController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _nameController.dispose();
@@ -249,266 +284,279 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
 
   @override
   Widget build(BuildContext context) {
+    final double logoTop = MediaQuery.of(context).padding.top + 60;
+
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/background_level.png'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 150,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 20,
-                          offset: const Offset(0, 10),
-                        ),
-                      ],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Image.asset(
-                        'assets/images/kizzle_logo.png',
-                        fit: BoxFit.contain,
-                        errorBuilder: (context, error, stackTrace) =>
-                            const Icon(
-                              Icons.broken_image,
-                              size: 50,
-                              color: Colors.grey,
-                            ),
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 40),
-
-                  Container(
-                    padding: const EdgeInsets.all(25),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.9),
-                      borderRadius: BorderRadius.circular(30),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 15,
-                          offset: Offset(0, 8),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        if (!_isLogin) ...[
-                          TextField(
-                            controller: _nameController,
-                            decoration: InputDecoration(
-                              hintText: 'Nama Anak',
-                              prefixIcon: const Icon(
-                                Icons.person_outline,
-                                color: Colors.blueAccent,
-                              ),
-                              filled: true,
-                              fillColor: Colors.grey.shade100,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                        ],
-                        TextField(
-                          controller: _emailController,
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: InputDecoration(
-                            hintText: 'Email',
-                            prefixIcon: const Icon(
-                              Icons.email_outlined,
-                              color: Colors.blueAccent,
-                            ),
-                            filled: true,
-                            fillColor: Colors.grey.shade100,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide.none,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        TextField(
-                          controller: _passwordController,
-                          obscureText: !_isPasswordVisible,
-                          decoration: InputDecoration(
-                            hintText: 'Password',
-                            prefixIcon: const Icon(
-                              Icons.lock_outline,
-                              color: Colors.blueAccent,
-                            ),
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                _isPasswordVisible
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
-                              ),
-                              onPressed: () => setState(
-                                () => _isPasswordVisible = !_isPasswordVisible,
-                              ),
-                            ),
-                            filled: true,
-                            fillColor: Colors.grey.shade100,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide.none,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 30),
-
-                        _bouncyButton(
-                          isPressed: _isAuthButtonPressed,
-                          onTapDown: () =>
-                              setState(() => _isAuthButtonPressed = true),
-                          onTapUp: () =>
-                              setState(() => _isAuthButtonPressed = false),
-                          child: SizedBox(
-                            width: double.infinity,
-                            height: 55,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.blueAccent,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                elevation: 5,
-                              ),
-                              onPressed: _isLoading
-                                  ? null
-                                  : () {
-                                      HapticFeedback.lightImpact();
-                                      _submitAuth();
-                                    },
-                              child: _isLoading
-                                  ? const CircularProgressIndicator(
-                                      color: Colors.white,
-                                    )
-                                  : Text(
-                                      _isLogin ? "Masuk" : "Daftar",
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-
-                        // --- TOMBOL GOOGLE SUDAH AKTIF ---
-                        if (_isLogin)
-                          _bouncyButton(
-                            isPressed: _isGoogleButtonPressed,
-                            onTapDown: () =>
-                                setState(() => _isGoogleButtonPressed = true),
-                            onTapUp: () =>
-                                setState(() => _isGoogleButtonPressed = false),
-                            child: OutlinedButton(
-                              style: OutlinedButton.styleFrom(
-                                minimumSize: const Size(double.infinity, 55),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                side: BorderSide(
-                                  color: Colors.grey.shade300,
-                                  width: 2,
-                                ),
-                              ),
-                              // Jalankan fungsi Google di sini
-                              onPressed: _isLoading
-                                  ? null
-                                  : () {
-                                      HapticFeedback.lightImpact();
-                                      _signInWithGoogle();
-                                    },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.network(
-                                    'https://img.icons8.com/color/48/000000/google-logo.png',
-                                    height: 25,
-                                    errorBuilder:
-                                        (context, error, stackTrace) =>
-                                            const Icon(
-                                              Icons.g_mobiledata,
-                                              color: Colors.red,
-                                            ),
-                                  ),
-                                  const SizedBox(width: 15),
-                                  const Text(
-                                    "Masuk dengan Google",
-                                    style: TextStyle(
-                                      color: Colors.black87,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-
-                  const SizedBox(height: 30),
-
-                  Row(
+      body: Stack(
+        children: [
+          // Full-screen background with login card content
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/background_level.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Center(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        _isLogin ? "Belum punya akun? " : "Sudah punya akun? ",
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
+                      const SizedBox(height: 55),
+
+                      Container(
+                        padding: const EdgeInsets.all(25),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.9),
+                          borderRadius: BorderRadius.circular(30),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 15,
+                              offset: Offset(0, 8),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            if (!_isLogin) ...[
+                              TextField(
+                                controller: _nameController,
+                                decoration: InputDecoration(
+                                  hintText: 'Nama Anak',
+                                  prefixIcon: const Icon(
+                                    Icons.person_outline,
+                                    color: Colors.blueAccent,
+                                  ),
+                                  filled: true,
+                                  fillColor: Colors.grey.shade100,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+                            ],
+                            TextField(
+                              controller: _emailController,
+                              keyboardType: TextInputType.emailAddress,
+                              decoration: InputDecoration(
+                                hintText: 'Email',
+                                prefixIcon: const Icon(
+                                  Icons.email_outlined,
+                                  color: Colors.blueAccent,
+                                ),
+                                filled: true,
+                                fillColor: Colors.grey.shade100,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  borderSide: BorderSide.none,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            TextField(
+                              controller: _passwordController,
+                              obscureText: !_isPasswordVisible,
+                              decoration: InputDecoration(
+                                hintText: 'Password',
+                                prefixIcon: const Icon(
+                                  Icons.lock_outline,
+                                  color: Colors.blueAccent,
+                                ),
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    _isPasswordVisible
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
+                                  ),
+                                  onPressed: () => setState(
+                                    () => _isPasswordVisible = !_isPasswordVisible,
+                                  ),
+                                ),
+                                filled: true,
+                                fillColor: Colors.grey.shade100,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  borderSide: BorderSide.none,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 30),
+
+                            _bouncyButton(
+                              isPressed: _isAuthButtonPressed,
+                              onTapDown: () =>
+                                  setState(() => _isAuthButtonPressed = true),
+                              onTapUp: () =>
+                                  setState(() => _isAuthButtonPressed = false),
+                              child: SizedBox(
+                                width: double.infinity,
+                                height: 55,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.blueAccent,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    elevation: 5,
+                                  ),
+                                  onPressed: _isLoading
+                                      ? null
+                                      : () {
+                                          HapticFeedback.lightImpact();
+                                          _submitAuth();
+                                        },
+                                  child: _isLoading
+                                      ? const CircularProgressIndicator(
+                                          color: Colors.white,
+                                        )
+                                      : Text(
+                                          _isLogin ? "Masuk" : "Daftar",
+                                          style: const TextStyle(
+                                            fontFamily: 'Jua',
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+
+                            // --- TOMBOL GOOGLE SUDAH AKTIF ---
+                            if (_isLogin)
+                              _bouncyButton(
+                                isPressed: _isGoogleButtonPressed,
+                                onTapDown: () =>
+                                    setState(() => _isGoogleButtonPressed = true),
+                                onTapUp: () =>
+                                    setState(() => _isGoogleButtonPressed = false),
+                                child: OutlinedButton(
+                                  style: OutlinedButton.styleFrom(
+                                    minimumSize: const Size(double.infinity, 55),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    side: BorderSide(
+                                      color: Colors.grey.shade300,
+                                      width: 2,
+                                    ),
+                                  ),
+                                  // Jalankan fungsi Google di sini
+                                  onPressed: _isLoading
+                                      ? null
+                                      : () {
+                                          HapticFeedback.lightImpact();
+                                          _signInWithGoogle();
+                                        },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.network(
+                                        'https://img.icons8.com/color/48/000000/google-logo.png',
+                                        height: 25,
+                                        errorBuilder:
+                                            (context, error, stackTrace) =>
+                                                const Icon(
+                                                  Icons.g_mobiledata,
+                                                  color: Colors.red,
+                                                ),
+                                      ),
+                                      const SizedBox(width: 15),
+                                      const Text(
+                                        "Masuk dengan Google",
+                                        style: TextStyle(
+                                          fontFamily: 'PalanquinDark',
+                                          color: Colors.black87,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                          ],
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          HapticFeedback.lightImpact();
-                          setState(() {
-                            _isLogin = !_isLogin;
-                          });
-                        },
-                        child: Text(
-                          _isLogin ? "Daftar Sekarang" : "Masuk di Sini",
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline,
+
+                      const SizedBox(height: 30),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            _isLogin ? "Belum punya akun? " : "Sudah punya akun? ",
+                            style: const TextStyle(
+                              fontFamily: 'PalanquinDark',
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
+                          GestureDetector(
+                            onTap: () {
+                              HapticFeedback.lightImpact();
+                              setState(() {
+                                _isLogin = !_isLogin;
+                              });
+                            },
+                            child: Text(
+                              _isLogin ? "Daftar Sekarang" : "Masuk di Sini",
+                              style: const TextStyle(
+                                fontFamily: 'PalanquinDark',
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                decoration: TextDecoration.none,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
+                      const SizedBox(height: 20),
                     ],
                   ),
-                  const SizedBox(height: 20),
-                ],
+                ),
               ),
             ),
           ),
-        ),
+
+          // Floating Kizzle logo with gentle bobbing and blink animation
+          Positioned(
+            top: logoTop,
+            left: 0,
+            right: 0,
+            child: AnimatedBuilder(
+              animation: _logoFloatAnimation,
+              builder: (context, _) {
+                return Transform.translate(
+                  offset: Offset(0, _logoFloatAnimation.value),
+                  child: Center(
+                    child: Image.asset(
+                      _isBlinking
+                          ? 'assets/images/kizzle_logoblink.png'
+                          : 'assets/images/kizzle_logo.png',
+                      width: 135,
+                      height: 135,
+                      fit: BoxFit.contain,
+                      errorBuilder: (context, error, stackTrace) =>
+                          const Icon(
+                            Icons.broken_image,
+                            size: 40,
+                            color: Colors.grey,
+                          ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
