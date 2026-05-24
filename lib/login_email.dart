@@ -284,7 +284,9 @@ class _LoginEmailPageState extends State<LoginEmailPage>
 
   @override
   Widget build(BuildContext context) {
-    final double logoTop = MediaQuery.of(context).padding.top + 60;
+    final screenWidth = MediaQuery.of(context).size.width;
+final logoSize = (screenWidth * 0.28).clamp(90.0, 125.0);
+final double logoTop = MediaQuery.of(context).padding.top + 28;
 
     return Scaffold(
       body: Stack(
@@ -306,7 +308,7 @@ class _LoginEmailPageState extends State<LoginEmailPage>
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const SizedBox(height: 55),
+                      const SizedBox(height: 95),
 
                       Container(
                         padding: const EdgeInsets.all(25),
@@ -541,8 +543,8 @@ class _LoginEmailPageState extends State<LoginEmailPage>
                       _isBlinking
                           ? 'assets/images/kizzle_logoblink.png'
                           : 'assets/images/kizzle_logo.png',
-                      width: 135,
-                      height: 135,
+                      width: logoSize,
+                      height: logoSize,
                       fit: BoxFit.contain,
                       errorBuilder: (context, error, stackTrace) =>
                           const Icon(
