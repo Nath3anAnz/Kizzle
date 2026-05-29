@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "553955093304-8mc1lspiqd9dgi9lih4pf23gjbksgcdj.apps.googleusercontent.com",
+          "client_id": "553955093304-3cm6l7gu4s9cmqibjfi2a37bp7m4suh5.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.puzzle_balita",
-            "certificate_hash": "b1caa7c20bd9e746bc0d8ef04ac4a791c0774629"
+            "certificate_hash": "2384d41d7acea19f11f0295a0646d3ff21a97132"
           }
         },
         {
