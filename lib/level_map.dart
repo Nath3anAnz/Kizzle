@@ -8,7 +8,7 @@ class LevelMapPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Pilih Levelmu", style: TextStyle(fontFamily: 'Jua')), 
+        title: const Text("Pilih Levelmu", style: TextStyle(fontFamily: 'Jua')),
         backgroundColor: Colors.orange,
       ),
       // INI DIA KUNCINYA: Membungkus dengan background gambar
@@ -17,7 +17,9 @@ class LevelMapPage extends StatelessWidget {
         height: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/background_level.png'), // Manggil gambar lu
+            image: AssetImage(
+              'assets/images/background_level.png',
+            ), // Manggil gambar lu
             fit: BoxFit.cover, // Biar gambarnya ditarik menutupi seluruh layar
           ),
         ),
@@ -45,7 +47,12 @@ class LevelMapPage extends StatelessWidget {
     );
   }
 
-  Widget _buildLevelNode(BuildContext context, String label, Alignment align, bool isUnlocked) {
+  Widget _buildLevelNode(
+    BuildContext context,
+    String label,
+    Alignment align,
+    bool isUnlocked,
+  ) {
     return Align(
       alignment: align,
       child: Padding(
@@ -53,13 +60,26 @@ class LevelMapPage extends StatelessWidget {
         child: GestureDetector(
           onTap: () {
             if (isUnlocked) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => PuzzleGame(level: label)));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PuzzleGame(level: label),
+                ),
+              );
             }
           },
           child: CircleAvatar(
             radius: 35,
             backgroundColor: isUnlocked ? Colors.orange : Colors.grey,
-            child: Text(label, style: const TextStyle(fontFamily: 'Jua', fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold)),
+            child: Text(
+              label,
+              style: const TextStyle(
+                fontFamily: 'Jua',
+                fontSize: 24,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ),
       ),
@@ -71,10 +91,10 @@ class LevelMapPage extends StatelessWidget {
     return Align(
       alignment: align,
       child: Container(
-        width: 5, 
-        height: 40, 
+        width: 5,
+        height: 40,
         color: Colors.white70, // <-- Berubah di sini
-        margin: const EdgeInsets.symmetric(horizontal: 60)
+        margin: const EdgeInsets.symmetric(horizontal: 60),
       ),
     );
   }

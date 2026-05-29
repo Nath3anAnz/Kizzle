@@ -27,7 +27,7 @@ class _SizeSortingPuzzleState extends State<SizeSortingPuzzle> {
   }
 
   void _setupLevel() {
-    int barCount = 6; 
+    int barCount = 6;
     if (widget.level == '2' || widget.level.toLowerCase() == 'medium') {
       barCount = 10;
     } else if (widget.level == '3' || widget.level.toLowerCase() == 'hard') {
@@ -35,7 +35,7 @@ class _SizeSortingPuzzleState extends State<SizeSortingPuzzle> {
     }
 
     _bars = List.generate(barCount, (index) => index + 1);
-    
+
     _bars.shuffle();
     while (_isSorted()) {
       _bars.shuffle();
@@ -59,8 +59,8 @@ class _SizeSortingPuzzleState extends State<SizeSortingPuzzle> {
 
   void _playSound(String fileName) async {
     try {
-      await _sfxPlayer.stop(); 
-      await _sfxPlayer.play(AssetSource('audio/$fileName'));
+      await _sfxPlayer.stop();
+      await AudioManager().playSfx(_sfxPlayer, fileName);
     } catch (e) {
       debugPrint("Gagal muter suara: $e");
     }
@@ -75,9 +75,9 @@ class _SizeSortingPuzzleState extends State<SizeSortingPuzzle> {
       _bars.insert(newIndex, item);
 
       if (_bars[newIndex] == newIndex + 1) {
-        _playSound('correct.mp3'); 
+        _playSound('correct.mp3');
       } else {
-        _playSound('wrong.mp3');   
+        _playSound('wrong.mp3');
       }
     });
 
@@ -87,10 +87,8 @@ class _SizeSortingPuzzleState extends State<SizeSortingPuzzle> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => SizeSortingReward(
-              level: widget.level,
-              waktu: _elapsedSeconds,
-            ),
+            builder: (context) =>
+                SizeSortingReward(level: widget.level, waktu: _elapsedSeconds),
           ),
         );
       });
@@ -107,15 +105,32 @@ class _SizeSortingPuzzleState extends State<SizeSortingPuzzle> {
   @override
   Widget build(BuildContext context) {
     final List<Color> barColors = [
-      Colors.redAccent, Colors.orange, Colors.amber, Colors.green, 
-      Colors.blue, Colors.indigo, Colors.purple, Colors.pinkAccent,
-      Colors.teal, Colors.cyan, Colors.lime, Colors.deepOrange,
-      Colors.lightBlue, Colors.brown
+      Colors.redAccent,
+      Colors.orange,
+      Colors.amber,
+      Colors.green,
+      Colors.blue,
+      Colors.indigo,
+      Colors.purple,
+      Colors.pinkAccent,
+      Colors.teal,
+      Colors.cyan,
+      Colors.lime,
+      Colors.deepOrange,
+      Colors.lightBlue,
+      Colors.brown,
     ];
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Size Sorting - Level ${widget.level}", style: const TextStyle(fontFamily: 'Jua', fontWeight: FontWeight.bold, color: Colors.white)),
+        title: Text(
+          "Size Sorting - Level ${widget.level}",
+          style: const TextStyle(
+            fontFamily: 'Jua',
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
         backgroundColor: Colors.orange,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
@@ -133,22 +148,41 @@ class _SizeSortingPuzzleState extends State<SizeSortingPuzzle> {
             const SizedBox(height: 20),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-              decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.8), borderRadius: BorderRadius.circular(20)),
-              child: Text("Waktu: ${_elapsedSeconds}s", style: const TextStyle(fontFamily: 'PalanquinDark', fontSize: 22, fontWeight: FontWeight.bold, color: Colors.blueAccent)),
-            ),
-            const SizedBox(height: 10),
-            
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.5), borderRadius: BorderRadius.circular(10)),
-              child: const Text(
-                "Urutkan dari yang Terpendek ➡️ Tertinggi",
-                style: TextStyle(fontFamily: 'Jua', color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.8),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Text(
+                "Waktu: ${_elapsedSeconds}s",
+                style: const TextStyle(
+                  fontFamily: 'PalanquinDark',
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blueAccent,
+                ),
               ),
             ),
-            
+            const SizedBox(height: 10),
+
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.black.withValues(alpha: 0.5),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: const Text(
+                "Urutkan dari yang Terpendek ➡️ Tertinggi",
+                style: TextStyle(
+                  fontFamily: 'Jua',
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+
             const SizedBox(height: 20),
-            
+
             Expanded(
               child: Container(
                 margin: const EdgeInsets.only(left: 15, right: 15, bottom: 40),
@@ -156,27 +190,31 @@ class _SizeSortingPuzzleState extends State<SizeSortingPuzzle> {
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.9),
                   borderRadius: BorderRadius.circular(20),
-                  boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 10, offset: Offset(0, 5))],
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 10,
+                      offset: Offset(0, 5),
+                    ),
+                  ],
                 ),
                 child: LayoutBuilder(
                   builder: (context, constraints) {
                     double marginHorizontal = _bars.length >= 10 ? 2.0 : 4.0;
                     double totalMargin = (marginHorizontal * 2) * _bars.length;
-                    double barWidth = (constraints.maxWidth - totalMargin - 5) / _bars.length;
+                    double barWidth =
+                        (constraints.maxWidth - totalMargin - 5) / _bars.length;
 
                     return ReorderableListView(
                       scrollDirection: Axis.horizontal,
                       padding: EdgeInsets.zero,
                       // --- KUNCI 1: MATIIN HOLD / LONG PRESS ---
-                      buildDefaultDragHandles: false, 
+                      buildDefaultDragHandles: false,
                       onReorder: _onReorder,
                       proxyDecorator: (child, index, animation) {
                         return Material(
                           color: Colors.transparent,
-                          child: Transform.scale(
-                            scale: 1.05,
-                            child: child,
-                          ),
+                          child: Transform.scale(scale: 1.05, child: child),
                         );
                       },
                       children: [
@@ -186,30 +224,38 @@ class _SizeSortingPuzzleState extends State<SizeSortingPuzzle> {
                             key: ValueKey(_bars[i]),
                             index: i,
                             child: Container(
-                              margin: EdgeInsets.symmetric(horizontal: marginHorizontal),
+                              margin: EdgeInsets.symmetric(
+                                horizontal: marginHorizontal,
+                              ),
                               width: barWidth,
                               child: Align(
                                 alignment: Alignment.bottomCenter,
                                 child: Container(
-                                  height: (_bars[i] * (constraints.maxHeight / _bars.length)), 
+                                  height:
+                                      (_bars[i] *
+                                      (constraints.maxHeight / _bars.length)),
                                   decoration: BoxDecoration(
-                                    color: barColors[_bars[i] % barColors.length], 
+                                    color:
+                                        barColors[_bars[i] % barColors.length],
                                     borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(10), 
+                                      topLeft: Radius.circular(10),
                                       topRight: Radius.circular(10),
                                       bottomLeft: Radius.circular(5),
                                       bottomRight: Radius.circular(5),
                                     ),
-                                    border: Border.all(color: Colors.black12, width: 2),
+                                    border: Border.all(
+                                      color: Colors.black12,
+                                      width: 2,
+                                    ),
                                   ),
                                   child: Center(
                                     child: Text(
-                                      _bars[i].toString(), 
+                                      _bars[i].toString(),
                                       style: TextStyle(
                                         fontFamily: 'PalanquinDark',
-                                        color: Colors.white, 
-                                        fontWeight: FontWeight.bold, 
-                                        fontSize: _bars.length >= 10 ? 12 : 16
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: _bars.length >= 10 ? 12 : 16,
                                       ),
                                     ),
                                   ),
@@ -219,7 +265,7 @@ class _SizeSortingPuzzleState extends State<SizeSortingPuzzle> {
                           ),
                       ],
                     );
-                  }
+                  },
                 ),
               ),
             ),

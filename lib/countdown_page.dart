@@ -3,9 +3,9 @@ import 'package:audioplayers/audioplayers.dart';
 import 'dart:async';
 import 'home_page.dart';
 import 'tile_puzzle.dart';
-import 'shape_puzzle.dart'; 
+import 'shape_puzzle.dart';
 import 'size_sorting_puzzle.dart'; // <--- IMPORT GAME BARUNYA DISINI
-import 'audio_manager.dart'; 
+import 'audio_manager.dart';
 import 'object_matching_puzzle.dart';
 
 class CountdownPage extends StatefulWidget {
@@ -27,24 +27,24 @@ class _CountdownPageState extends State<CountdownPage> {
   @override
   void initState() {
     super.initState();
-    AudioManager().stopMusic(); 
-    
-    _playSound("3"); 
+    AudioManager().stopMusic();
+
+    _playSound("3");
     _startCountdown();
   }
 
   void _playSound(String text) async {
     try {
-      await _sfxPlayer.stop(); 
-      
+      await _sfxPlayer.stop();
+
       if (text == "3") {
-        await _sfxPlayer.play(AssetSource('audio/3.mp3'));
+        await AudioManager().playSfx(_sfxPlayer, '3.mp3');
       } else if (text == "2") {
-        await _sfxPlayer.play(AssetSource('audio/2.mp3'));
+        await AudioManager().playSfx(_sfxPlayer, '2.mp3');
       } else if (text == "1") {
-        await _sfxPlayer.play(AssetSource('audio/1.mp3'));
+        await AudioManager().playSfx(_sfxPlayer, '1.mp3');
       } else if (text == "GO!") {
-        await _sfxPlayer.play(AssetSource('audio/go.mp3'));
+        await AudioManager().playSfx(_sfxPlayer, 'go.mp3');
       }
     } catch (e) {
       debugPrint("Audio $text gagal diputar, aman.");
@@ -57,11 +57,11 @@ class _CountdownPageState extends State<CountdownPage> {
         if (_counter > 1) {
           _counter--;
           _displayText = _counter.toString();
-          _playSound(_displayText); 
+          _playSound(_displayText);
         } else if (_counter == 1) {
           _counter--;
           _displayText = "GO!";
-          _playSound(_displayText); 
+          _playSound(_displayText);
         } else {
           _timer?.cancel();
           _navigateToGame();
@@ -75,22 +75,32 @@ class _CountdownPageState extends State<CountdownPage> {
     if (widget.kategori == 'Tile Puzzle') {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => TilePuzzle(level: widget.level)),
+        MaterialPageRoute(
+          builder: (context) => TilePuzzle(level: widget.level),
+        ),
       );
     } else if (widget.kategori == 'Match Shape') {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => ShapePuzzle(level: widget.level)), 
+        MaterialPageRoute(
+          builder: (context) => ShapePuzzle(level: widget.level),
+        ),
       );
-    } else if (widget.kategori == 'Size Sorting') { 
+    } else if (widget.kategori == 'Size Sorting') {
       // Nah ini dia tiket masuknya!
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => SizeSortingPuzzle(level: widget.level)), 
+        MaterialPageRoute(
+          builder: (context) => SizeSortingPuzzle(level: widget.level),
+        ),
       );
-    } else if (widget.kategori == 'Object Matching') { 
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ObjectMatchingPuzzle(level: widget.level)));  
-
+    } else if (widget.kategori == 'Object Matching') {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ObjectMatchingPuzzle(level: widget.level),
+        ),
+      );
     } else {
       Navigator.pushReplacement(
         context,
@@ -133,7 +143,11 @@ class _CountdownPageState extends State<CountdownPage> {
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
                 shadows: const [
-                  BoxShadow(color: Colors.black45, blurRadius: 10, offset: Offset(4, 4))
+                  BoxShadow(
+                    color: Colors.black45,
+                    blurRadius: 10,
+                    offset: Offset(4, 4),
+                  ),
                 ],
               ),
             ),

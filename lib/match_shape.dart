@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'dart:async';
 import 'dart:ui';
+import 'audio_manager.dart';
 
 class MatchShape extends StatefulWidget {
   final String level;
@@ -80,13 +81,13 @@ class _MatchShapeState extends State<MatchShape> {
 
   void _triggerWrongEffect() async {
     try {
-      await _sfxPlayer.play(AssetSource('audio/wrong.mp3'));
+      await AudioManager().playSfx(_sfxPlayer, 'wrong.mp3');
     } catch (e) {}
   }
 
   void _triggerCorrectEffect() async {
     try {
-      await _sfxPlayer.play(AssetSource('audio/correct.mp3'));
+      await AudioManager().playSfx(_sfxPlayer, 'correct.mp3');
     } catch (e) {}
   }
 
@@ -225,7 +226,10 @@ class _MatchShapeState extends State<MatchShape> {
                                 },
                                 child: const Text(
                                   "OK",
-                                  style: TextStyle(fontFamily: 'Jua', fontWeight: FontWeight.w900),
+                                  style: TextStyle(
+                                    fontFamily: 'Jua',
+                                    fontWeight: FontWeight.w900,
+                                  ),
                                 ),
                               ),
                             ],

@@ -80,14 +80,16 @@ class _CategoriesPageState extends State<CategoriesPage> {
       final categories = querySnapshot.docs
           .where((doc) => doc.data()['is_active'] == true)
           .map((doc) {
-        final data = doc.data();
-        return _GameCategory(
-          name: data['name'] as String? ?? '',
-          iconName: data['icon_name'] as String? ?? '',
-          colorHex: data['color_hex'] as String? ?? '',
-          order: data['order'] as int? ?? 0,
-        );
-      }).where((cat) => cat.name.isNotEmpty).toList();
+            final data = doc.data();
+            return _GameCategory(
+              name: data['name'] as String? ?? '',
+              iconName: data['icon_name'] as String? ?? '',
+              colorHex: data['color_hex'] as String? ?? '',
+              order: data['order'] as int? ?? 0,
+            );
+          })
+          .where((cat) => cat.name.isNotEmpty)
+          .toList();
 
       if (categories.isEmpty) {
         _applyFallback();
@@ -147,7 +149,11 @@ class _CategoriesPageState extends State<CategoriesPage> {
       appBar: AppBar(
         title: const Text(
           'Pilih Kategori',
-          style: TextStyle(fontFamily: 'Jua', fontWeight: FontWeight.bold, color: Colors.white),
+          style: TextStyle(
+            fontFamily: 'Jua',
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
         backgroundColor: Colors.orange,
         elevation: 0,
@@ -181,9 +187,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                 child: _isLoading
                     ? const CircularProgressIndicator(color: Colors.white)
                     : Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 25.0,
-                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 25.0),
                         child: GridView.count(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
@@ -201,9 +205,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => DifficultyPage(
-                                      kategori: cat.name,
-                                    ),
+                                    builder: (context) =>
+                                        DifficultyPage(kategori: cat.name),
                                   ),
                                 );
                               },
@@ -235,8 +238,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
                   },
                   transitionBuilder:
                       (context, animation, secondaryAnimation, child) {
-                    return FadeTransition(opacity: animation, child: child);
-                  },
+                        return FadeTransition(opacity: animation, child: child);
+                      },
                 );
               },
               child: const Icon(Icons.question_mark, color: Colors.blue),

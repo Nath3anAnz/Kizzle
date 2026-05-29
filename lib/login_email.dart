@@ -41,14 +41,8 @@ class _LoginEmailPageState extends State<LoginEmailPage>
       duration: const Duration(seconds: 2),
     )..repeat(reverse: true);
 
-    _logoFloatAnimation = Tween<double>(
-      begin: -4,
-      end: 4,
-    ).animate(
-      CurvedAnimation(
-        parent: _logoController,
-        curve: Curves.easeInOut,
-      ),
+    _logoFloatAnimation = Tween<double>(begin: -4, end: 4).animate(
+      CurvedAnimation(parent: _logoController, curve: Curves.easeInOut),
     );
 
     _blinkTimer = Timer.periodic(const Duration(seconds: 4), (_) {
@@ -103,8 +97,8 @@ class _LoginEmailPageState extends State<LoginEmailPage>
                   const LoadingScreen(),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
-                return FadeTransition(opacity: animation, child: child);
-              },
+                    return FadeTransition(opacity: animation, child: child);
+                  },
             ),
           );
         }
@@ -121,18 +115,18 @@ class _LoginEmailPageState extends State<LoginEmailPage>
 
         UserCredential userCred = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(
-          email: emailInput,
-          password: passwordInput,
-        );
+              email: emailInput,
+              password: passwordInput,
+            );
 
         await FirebaseFirestore.instance
             .collection('users')
             .doc(userCred.user!.uid)
             .set({
-          'nama': _nameController.text.trim(),
-          'email': emailInput,
-          'dibuat_pada': FieldValue.serverTimestamp(),
-        });
+              'nama': _nameController.text.trim(),
+              'email': emailInput,
+              'dibuat_pada': FieldValue.serverTimestamp(),
+            });
 
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -186,18 +180,18 @@ class _LoginEmailPageState extends State<LoginEmailPage>
         idToken: googleAuth.idToken,
       );
 
-      UserCredential userCred =
-          await FirebaseAuth.instance.signInWithCredential(credential);
+      UserCredential userCred = await FirebaseAuth.instance
+          .signInWithCredential(credential);
 
       if (userCred.additionalUserInfo?.isNewUser ?? false) {
         await FirebaseFirestore.instance
             .collection('users')
             .doc(userCred.user!.uid)
             .set({
-          'nama': userCred.user!.displayName ?? 'Pemain Kizzle',
-          'email': userCred.user!.email,
-          'dibuat_pada': FieldValue.serverTimestamp(),
-        });
+              'nama': userCred.user!.displayName ?? 'Pemain Kizzle',
+              'email': userCred.user!.email,
+              'dibuat_pada': FieldValue.serverTimestamp(),
+            });
       }
 
       debugPrint("Google Sign-In Sukses!");
@@ -286,11 +280,8 @@ class _LoginEmailPageState extends State<LoginEmailPage>
             width: logoSize,
             height: logoSize,
             fit: BoxFit.contain,
-            errorBuilder: (context, error, stackTrace) => const Icon(
-              Icons.broken_image,
-              size: 40,
-              color: Colors.grey,
-            ),
+            errorBuilder: (context, error, stackTrace) =>
+                const Icon(Icons.broken_image, size: 40, color: Colors.grey),
           ),
         );
       },
@@ -494,9 +485,9 @@ class _LoginEmailPageState extends State<LoginEmailPage>
                                     errorBuilder:
                                         (context, error, stackTrace) =>
                                             const Icon(
-                                      Icons.g_mobiledata,
-                                      color: Colors.red,
-                                    ),
+                                              Icons.g_mobiledata,
+                                              color: Colors.red,
+                                            ),
                                   ),
                                   const SizedBox(width: 15),
                                   const Text(
@@ -521,9 +512,7 @@ class _LoginEmailPageState extends State<LoginEmailPage>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        _isLogin
-                            ? "Belum punya akun? "
-                            : "Sudah punya akun? ",
+                        _isLogin ? "Belum punya akun? " : "Sudah punya akun? ",
                         style: const TextStyle(
                           fontFamily: 'PalanquinDark',
                           color: Colors.white,

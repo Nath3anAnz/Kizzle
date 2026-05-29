@@ -6,11 +6,9 @@ import 'login_email.dart';
 void main() async {
   // Wajib ada biar mesin Flutter siap ngejalanin fungsi di luar UI (seperti Firebase)
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Menyalakan mesin Firebase Kizzle
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(
     MaterialApp(

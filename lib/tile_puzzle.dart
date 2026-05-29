@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:audioplayers/audioplayers.dart'; 
-import 'tile_reward.dart'; 
+import 'package:audioplayers/audioplayers.dart';
+import 'tile_reward.dart';
 import 'audio_manager.dart';
 
 class TilePuzzle extends StatefulWidget {
@@ -12,20 +12,20 @@ class TilePuzzle extends StatefulWidget {
   State<TilePuzzle> createState() => _TilePuzzleState();
 }
 
-class _TilePuzzleState extends State<TilePuzzle> with SingleTickerProviderStateMixin {
-  
+class _TilePuzzleState extends State<TilePuzzle>
+    with SingleTickerProviderStateMixin {
   late int _columns;
   late int _totalPieces;
   late String _folderName;
   late String _fullImageName;
-  
+
   Map<String, bool> score = {};
   List<String> _shuffledPieces = [];
 
   Timer? _timer;
   int _elapsedSeconds = 0;
-  final AudioPlayer _sfxPlayer = AudioPlayer(); 
-  final AudioPlayer _correctSfxPlayer = AudioPlayer(); 
+  final AudioPlayer _sfxPlayer = AudioPlayer();
+  final AudioPlayer _correctSfxPlayer = AudioPlayer();
 
   late AnimationController _errorAnimController;
   late Animation<double> _shakeAnimation;
@@ -35,21 +35,23 @@ class _TilePuzzleState extends State<TilePuzzle> with SingleTickerProviderStateM
   void initState() {
     AudioManager().playGameMusic();
     super.initState();
-    _setupLevelConfig(); 
-    _startTimer(); 
-    _startBgm(); 
+    _setupLevelConfig();
+    _startTimer();
+    _startBgm();
     _setupAnimations();
   }
 
   void _startBgm() async {
-    try {
-    } catch (e) {
+    try {} catch (e) {
       debugPrint("BGM aman.");
     }
   }
 
   void _setupAnimations() {
-    _errorAnimController = AnimationController(vsync: this, duration: const Duration(milliseconds: 400));
+    _errorAnimController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
     _flashAnimation = TweenSequence([
       TweenSequenceItem(tween: Tween(begin: 0.0, end: 0.5), weight: 1),
       TweenSequenceItem(tween: Tween(begin: 0.5, end: 0.0), weight: 1),
@@ -64,7 +66,7 @@ class _TilePuzzleState extends State<TilePuzzle> with SingleTickerProviderStateM
 
   void _triggerWrongEffect() async {
     try {
-      await _sfxPlayer.play(AssetSource('audio/wrong.mp3'));
+      await AudioManager().playSfx(_sfxPlayer, 'wrong.mp3');
     } catch (e) {
       debugPrint("SFX Wrong aman.");
     }
@@ -73,8 +75,8 @@ class _TilePuzzleState extends State<TilePuzzle> with SingleTickerProviderStateM
 
   void _triggerCorrectEffect() async {
     try {
-      await _correctSfxPlayer.stop(); 
-      await _correctSfxPlayer.play(AssetSource('audio/correct.mp3'));
+      await _correctSfxPlayer.stop();
+      await AudioManager().playSfx(_correctSfxPlayer, 'correct.mp3');
     } catch (e) {
       debugPrint("SFX Correct aman.");
     }
@@ -84,19 +86,19 @@ class _TilePuzzleState extends State<TilePuzzle> with SingleTickerProviderStateM
     if (widget.level == '1') {
       _columns = 3;
       _totalPieces = 9;
-      _folderName = 'tilelvl1'; 
-      _fullImageName = 'easy_picture_full.png'; 
+      _folderName = 'tilelvl1';
+      _fullImageName = 'easy_picture_full.png';
     } else if (widget.level == '2') {
       _columns = 4;
       _totalPieces = 16;
-      _folderName = 'tilelvl2'; 
-      _fullImageName = 'medium_picture_full.png'; 
+      _folderName = 'tilelvl2';
+      _fullImageName = 'medium_picture_full.png';
     } else if (widget.level == '3') {
       // --- CONFIG LEVEL 3 (MOBIL 6x6) ---
       _columns = 6;
       _totalPieces = 36;
-      _folderName = 'tilelvl3'; 
-      _fullImageName = 'hard_picture_full.PNG'; 
+      _folderName = 'tilelvl3';
+      _fullImageName = 'hard_picture_full.PNG';
     }
 
     for (int i = 1; i <= _totalPieces; i++) {
@@ -107,7 +109,7 @@ class _TilePuzzleState extends State<TilePuzzle> with SingleTickerProviderStateM
 
   String _getPieceImageName(String id) {
     int intId = int.parse(id);
-    int r = ((intId - 1) ~/ _columns) + 1; 
+    int r = ((intId - 1) ~/ _columns) + 1;
     int c = ((intId - 1) % _columns) + 1;
     if (widget.level == '1') {
       return 'assets/images/$_folderName/easy_piece_r${r}_c${c}.jpg';
@@ -130,10 +132,10 @@ class _TilePuzzleState extends State<TilePuzzle> with SingleTickerProviderStateM
 
   @override
   void dispose() {
-    _timer?.cancel(); 
- 
+    _timer?.cancel();
+
     _sfxPlayer.dispose();
-    _correctSfxPlayer.dispose(); 
+    _correctSfxPlayer.dispose();
     _errorAnimController.dispose();
     super.dispose();
   }
@@ -146,7 +148,14 @@ class _TilePuzzleState extends State<TilePuzzle> with SingleTickerProviderStateM
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Main Tile Puzzle - Level ${widget.level}", style: const TextStyle(fontFamily: 'Jua', fontWeight: FontWeight.bold, color: Colors.white)), 
+        title: Text(
+          "Main Tile Puzzle - Level ${widget.level}",
+          style: const TextStyle(
+            fontFamily: 'Jua',
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
         backgroundColor: Colors.green,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
@@ -156,44 +165,58 @@ class _TilePuzzleState extends State<TilePuzzle> with SingleTickerProviderStateM
             animation: _shakeAnimation,
             builder: (context, child) {
               return Transform.translate(
-                offset: Offset(_shakeAnimation.value, 0), 
+                offset: Offset(_shakeAnimation.value, 0),
                 child: child,
               );
             },
             child: Container(
               width: double.infinity,
-              height: double.infinity, 
+              height: double.infinity,
               decoration: const BoxDecoration(
-                image: DecorationImage(image: AssetImage('assets/images/background_level.png'), fit: BoxFit.cover),
+                image: DecorationImage(
+                  image: AssetImage('assets/images/background_level.png'),
+                  fit: BoxFit.cover,
+                ),
               ),
               child: Column(
                 children: [
-                  const SizedBox(height: 10), 
+                  const SizedBox(height: 10),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                    decoration: BoxDecoration(color: Colors.white.withOpacity(0.8), borderRadius: BorderRadius.circular(20)),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.8),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                     child: Text(
-                      "Waktu: ${_elapsedSeconds}s", 
-                      style: const TextStyle(fontFamily: 'PalanquinDark', fontSize: 22, fontWeight: FontWeight.bold, color: Colors.blueAccent)
+                      "Waktu: ${_elapsedSeconds}s",
+                      style: const TextStyle(
+                        fontFamily: 'PalanquinDark',
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueAccent,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 10),
-                  
+
                   Expanded(
-                    flex: 6, 
+                    flex: 6,
                     // --- KUNCI FIX 2: BUNGKUS PAKAI CENTER BIAR NGA KETARIK MELAR ---
                     child: Center(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15), 
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
                         // --- KUNCI FIX 3: ASPECT RATIO DINAMIS SESUAI JUMLAH KOLOM/BARIS ---
                         child: AspectRatio(
-                          aspectRatio: gridAspectRatio, 
+                          aspectRatio: gridAspectRatio,
                           child: Container(
-                            padding: const EdgeInsets.all(4), 
+                            padding: const EdgeInsets.all(4),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.8), 
+                              color: Colors.white.withOpacity(0.8),
                               borderRadius: BorderRadius.circular(15),
-                              border: Border.all(color: Colors.white, width: 3), 
+                              border: Border.all(color: Colors.white, width: 3),
                             ),
                             child: Stack(
                               children: [
@@ -201,14 +224,28 @@ class _TilePuzzleState extends State<TilePuzzle> with SingleTickerProviderStateM
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
                                     child: Opacity(
-                                      opacity: 0.3, 
+                                      opacity: 0.3,
                                       child: Image.asset(
-                                        'assets/images/$_folderName/$_fullImageName', 
-                                        fit: BoxFit.fill, 
-                                        errorBuilder: (context, error, stackTrace) => Container(
-                                          color: Colors.grey.shade300,
-                                          child: const Center(child: Text("Gambar\nBelum Pas", textAlign: TextAlign.center, style: TextStyle(fontFamily: 'PalanquinDark', color: Colors.black54))),
-                                        ),
+                                        'assets/images/$_folderName/$_fullImageName',
+                                        fit: BoxFit.fill,
+                                        errorBuilder:
+                                            (
+                                              context,
+                                              error,
+                                              stackTrace,
+                                            ) => Container(
+                                              color: Colors.grey.shade300,
+                                              child: const Center(
+                                                child: Text(
+                                                  "Gambar\nBelum Pas",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontFamily: 'PalanquinDark',
+                                                    color: Colors.black54,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
                                       ),
                                     ),
                                   ),
@@ -216,16 +253,20 @@ class _TilePuzzleState extends State<TilePuzzle> with SingleTickerProviderStateM
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
                                   child: GridView.builder(
-                                    physics: const NeverScrollableScrollPhysics(), 
-                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: _columns, 
-                                      mainAxisSpacing: 1, 
-                                      crossAxisSpacing: 1,
-                                      childAspectRatio: 1.0, 
-                                    ),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: _columns,
+                                          mainAxisSpacing: 1,
+                                          crossAxisSpacing: 1,
+                                          childAspectRatio: 1.0,
+                                        ),
                                     itemCount: _totalPieces,
                                     itemBuilder: (context, index) {
-                                      return _buildDragTarget((index + 1).toString());
+                                      return _buildDragTarget(
+                                        (index + 1).toString(),
+                                      );
                                     },
                                   ),
                                 ),
@@ -237,18 +278,31 @@ class _TilePuzzleState extends State<TilePuzzle> with SingleTickerProviderStateM
                     ),
                   ),
 
-                  const SizedBox(height: 10), 
-                  const Divider(color: Colors.white, thickness: 3, indent: 30, endIndent: 30),
-                  const SizedBox(height: 10), 
+                  const SizedBox(height: 10),
+                  const Divider(
+                    color: Colors.white,
+                    thickness: 3,
+                    indent: 30,
+                    endIndent: 30,
+                  ),
+                  const SizedBox(height: 10),
 
                   Expanded(
-                    flex: 4, 
+                    flex: 4,
                     child: SingleChildScrollView(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 5,
+                        ),
                         child: Wrap(
-                          spacing: 10, runSpacing: 10, alignment: WrapAlignment.center,
-                          children: _shuffledPieces.where((id) => score[id] == false).map((id) => _buildDraggable(id)).toList(),
+                          spacing: 10,
+                          runSpacing: 10,
+                          alignment: WrapAlignment.center,
+                          children: _shuffledPieces
+                              .where((id) => score[id] == false)
+                              .map((id) => _buildDraggable(id))
+                              .toList(),
                         ),
                       ),
                     ),
@@ -276,7 +330,7 @@ class _TilePuzzleState extends State<TilePuzzle> with SingleTickerProviderStateM
 
   Widget _buildDragTarget(String id) {
     return DragTarget<String>(
-      onWillAccept: (data) => true, 
+      onWillAccept: (data) => true,
       onAccept: (data) {
         if (data == id) {
           setState(() => score[id] = true);
@@ -286,28 +340,36 @@ class _TilePuzzleState extends State<TilePuzzle> with SingleTickerProviderStateM
             _timer?.cancel();
             Future.delayed(const Duration(milliseconds: 500), () {
               if (mounted) {
-                Navigator.pushReplacement(context, MaterialPageRoute(
-                  builder: (context) => TileReward(level: widget.level, waktu: _elapsedSeconds) 
-                ));
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        TileReward(level: widget.level, waktu: _elapsedSeconds),
+                  ),
+                );
               }
             });
           }
         } else {
-          _triggerWrongEffect(); 
+          _triggerWrongEffect();
         }
       },
       builder: (context, data, rejected) {
         if (score[id]!) {
           return Image.asset(
-            _getPieceImageName(id), 
-            fit: BoxFit.fill, 
-            errorBuilder: (context, error, stackTrace) => _buildMissingAssetBox(),
+            _getPieceImageName(id),
+            fit: BoxFit.fill,
+            errorBuilder: (context, error, stackTrace) =>
+                _buildMissingAssetBox(),
           );
         } else {
           return Container(
             decoration: BoxDecoration(
               color: Colors.black.withOpacity(0.05),
-              border: Border.all(color: Colors.white.withOpacity(0.3), width: 0.5),
+              border: Border.all(
+                color: Colors.white.withOpacity(0.3),
+                width: 0.5,
+              ),
             ),
           );
         }
@@ -320,29 +382,62 @@ class _TilePuzzleState extends State<TilePuzzle> with SingleTickerProviderStateM
     return Draggable<String>(
       data: id,
       feedback: Opacity(
-        opacity: 0.85, 
+        opacity: 0.85,
         child: Container(
-          decoration: BoxDecoration(boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 10, offset: Offset(2, 4))]),
-          child: Image.asset(
-            _getPieceImageName(id), 
-            width: pieceSize + 15, height: pieceSize + 15, fit: BoxFit.fill,
-            errorBuilder: (context, error, stackTrace) => _buildMissingAssetBox(size: pieceSize + 15),
+          decoration: BoxDecoration(
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 10,
+                offset: Offset(2, 4),
+              ),
+            ],
           ),
-        )
+          child: Image.asset(
+            _getPieceImageName(id),
+            width: pieceSize + 15,
+            height: pieceSize + 15,
+            fit: BoxFit.fill,
+            errorBuilder: (context, error, stackTrace) =>
+                _buildMissingAssetBox(size: pieceSize + 15),
+          ),
+        ),
       ),
-      childWhenDragging: Container(width: pieceSize, height: pieceSize, color: Colors.transparent),
+      childWhenDragging: Container(
+        width: pieceSize,
+        height: pieceSize,
+        color: Colors.transparent,
+      ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(8), 
+        borderRadius: BorderRadius.circular(8),
         child: Image.asset(
-          _getPieceImageName(id), 
-          width: pieceSize, height: pieceSize, fit: BoxFit.fill,
-          errorBuilder: (context, error, stackTrace) => _buildMissingAssetBox(size: pieceSize),
+          _getPieceImageName(id),
+          width: pieceSize,
+          height: pieceSize,
+          fit: BoxFit.fill,
+          errorBuilder: (context, error, stackTrace) =>
+              _buildMissingAssetBox(size: pieceSize),
         ),
       ),
     );
   }
 
   Widget _buildMissingAssetBox({double? size}) {
-    return Container(width: size, height: size, color: Colors.grey.shade300, child: const Center(child: Text("Aset\nBelum\nAda", textAlign: TextAlign.center, style: TextStyle(fontFamily: 'PalanquinDark', fontSize: 10, color: Colors.black54))));
+    return Container(
+      width: size,
+      height: size,
+      color: Colors.grey.shade300,
+      child: const Center(
+        child: Text(
+          "Aset\nBelum\nAda",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontFamily: 'PalanquinDark',
+            fontSize: 10,
+            color: Colors.black54,
+          ),
+        ),
+      ),
+    );
   }
 }

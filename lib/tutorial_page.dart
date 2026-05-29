@@ -72,14 +72,16 @@ class _TutorialPageState extends State<TutorialPage>
       final tutorials = querySnapshot.docs
           .where((doc) => doc.data()['is_active'] == true)
           .map((doc) {
-        final data = doc.data();
-        final imagePath = data['image_path'] as String? ?? '';
-        final durationSeconds = data['duration'] as int? ?? 4;
-        return _TutorialItem(
-          imagePath: imagePath,
-          duration: Duration(seconds: durationSeconds),
-        );
-      }).where((item) => item.imagePath.isNotEmpty).toList();
+            final data = doc.data();
+            final imagePath = data['image_path'] as String? ?? '';
+            final durationSeconds = data['duration'] as int? ?? 4;
+            return _TutorialItem(
+              imagePath: imagePath,
+              duration: Duration(seconds: durationSeconds),
+            );
+          })
+          .where((item) => item.imagePath.isNotEmpty)
+          .toList();
 
       if (tutorials.isEmpty) {
         _applyFallback();
@@ -93,8 +95,9 @@ class _TutorialPageState extends State<TutorialPage>
         _totalStories = tutorials.length;
         _isLoading = false;
         _currentIndex = 0;
-        _animationController.duration =
-            tutorials.isNotEmpty ? tutorials[0].duration : _fallbackDuration;
+        _animationController.duration = tutorials.isNotEmpty
+            ? tutorials[0].duration
+            : _fallbackDuration;
         _animationController.reset();
         _animationController.forward();
       });
@@ -144,9 +147,7 @@ class _TutorialPageState extends State<TutorialPage>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: SafeArea(
-        child: _isLoading ? _buildLoading() : _buildTutorial(),
-      ),
+      body: SafeArea(child: _isLoading ? _buildLoading() : _buildTutorial()),
     );
   }
 
@@ -186,8 +187,12 @@ class _TutorialPageState extends State<TutorialPage>
           Column(
             children: [
               Padding(
-                padding:
-                    const EdgeInsets.only(top: 15, left: 12, right: 12, bottom: 15),
+                padding: const EdgeInsets.only(
+                  top: 15,
+                  left: 12,
+                  right: 12,
+                  bottom: 15,
+                ),
                 child: AnimatedBuilder(
                   animation: _animationController,
                   builder: (context, child) {
@@ -202,11 +207,14 @@ class _TutorialPageState extends State<TutorialPage>
                                 value: index < _currentIndex
                                     ? 1.0
                                     : (index == _currentIndex
-                                        ? _animationController.value
-                                        : 0.0),
-                                valueColor:
-                                    const AlwaysStoppedAnimation<Color>(Colors.red),
-                                backgroundColor: Colors.white.withValues(alpha: 0.35),
+                                          ? _animationController.value
+                                          : 0.0),
+                                valueColor: const AlwaysStoppedAnimation<Color>(
+                                  Colors.red,
+                                ),
+                                backgroundColor: Colors.white.withValues(
+                                  alpha: 0.35,
+                                ),
                                 minHeight: 4,
                               ),
                             ),
@@ -261,11 +269,7 @@ class _TutorialPageState extends State<TutorialPage>
                   color: Colors.black.withValues(alpha: 0.25),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(
-                  Icons.close,
-                  color: Colors.white,
-                  size: 26,
-                ),
+                child: const Icon(Icons.close, color: Colors.white, size: 26),
               ),
             ),
           ),

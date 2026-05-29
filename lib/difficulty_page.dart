@@ -145,7 +145,8 @@ class _DifficultyPageState extends State<DifficultyPage> {
   IconData _getCategoryIcon() {
     if (widget.kategori == 'Tile Puzzle') return Icons.grid_view_rounded;
     if (widget.kategori == 'Match Shape') return Icons.category;
-    if (widget.kategori == 'Size Sorting') return Icons.align_vertical_bottom_rounded;
+    if (widget.kategori == 'Size Sorting')
+      return Icons.align_vertical_bottom_rounded;
     if (widget.kategori == 'Object Matching') return Icons.extension;
     return Icons.star;
   }
@@ -172,7 +173,11 @@ class _DifficultyPageState extends State<DifficultyPage> {
       appBar: AppBar(
         title: const Text(
           "Select Difficulty",
-          style: TextStyle(fontFamily: 'Jua', fontWeight: FontWeight.bold, color: Colors.white),
+          style: TextStyle(
+            fontFamily: 'Jua',
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
         backgroundColor: Colors.orange,
         elevation: 0,
@@ -184,7 +189,8 @@ class _DifficultyPageState extends State<DifficultyPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => LeaderboardPage(kategori: widget.kategori),
+                  builder: (context) =>
+                      LeaderboardPage(kategori: widget.kategori),
                 ),
               );
             },
@@ -264,7 +270,6 @@ class _DifficultyPageState extends State<DifficultyPage> {
                       child: CircularProgressIndicator(color: Colors.white),
                     ),
                   )
-
                 // --- DIFFICULTY BUTTONS ---
                 else
                   ..._levels.map((item) {
