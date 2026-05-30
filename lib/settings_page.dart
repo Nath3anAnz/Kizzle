@@ -72,7 +72,7 @@ class _SettingsPageState extends State<SettingsPage> {
             fontFamily: 'Jua',
             fontWeight: FontWeight.bold,
             color: Colors.white,
-          ),
+          )
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
